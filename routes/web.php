@@ -10,16 +10,14 @@ Route::redirect('/', '/welcome', Response::HTTP_MOVED_PERMANENTLY);
 
 Route::get('/welcome', [MainController::class, 'welcome']);
 
-Route::get('/home', function () {
-    return view('pages.home'); // home.blade.php extends layouts.app
-});
+Route::get('/home', fn() => view('pages.home'));
 
 // Registration
-Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::get('/register', fn() => view('pages.auth.register'))->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
 // Login
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::get('/login', fn() => view('pages.auth.login'))->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 
 // Logout

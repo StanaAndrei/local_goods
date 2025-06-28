@@ -6,38 +6,39 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\RegisterUserRequest;
+use App\Enums\Role;
 
 
 class AuthController extends Controller {
-    public function showRegister() {
-      return view('pages.auth.register');
-    }
-    public function register(Request $request) {
-      $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|confirmed|min:8',
-      ]);
-      $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-      ]);
+    public function register(RegisterUserRequest $request) {
+      $data = $request->validated();
+      $data['role'] = Role::from((int)$data['role']); // Cast to enum
+      $user = User::create($data);
       Auth::login($user);
       return redirect('/dashboard');
     }
 
-    public function showLogin() {
-      return view('pages.auth.login');
-    }
     public function login(Request $request) {
       $credentials = $request->only('email', 'password');
+      $user = User::where('email', $credentials['email'])->first();
+      if (!$user) {
+        return back()->withErrors([
+            'email' => 'This email address is not registered.',
+        ])->withInput();
+      }
+      if (!Hash::check($credentials['password'], $user->password)) {
+        return back()->withErrors([
+            'password' => 'The password you entered is incorrect.',
+        ])->withInput();
+      }
+
       if (Auth::attempt($credentials, $request->boolean('remember'))) {
         $request->session()->regenerate();
         return redirect()->intended('dashboard');
       }
-      return back()->withErrors([
-        'email' => 'The provided credentials do not match our records.',
+      return back()->withErrors([//other err
+        'email' => 'Login failed!',
       ]);
     }
 

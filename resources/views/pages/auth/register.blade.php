@@ -27,6 +27,14 @@
             <label>Confirm Password:</label>
             <input type="password" name="password_confirmation" required>
         </div>
+        <div>
+            <label>Role:</label>
+            <select name="role" required>
+                <option value="{{ \App\Enums\Role::SELLER->value }}" {{ old('role') == \App\Enums\Role::SELLER->value ? 'selected' : '' }}>Seller</option>
+                <option value="{{ \App\Enums\Role::BUYER->value }}" {{ old('role') == \App\Enums\Role::BUYER->value ? 'selected' : '' }}>Buyer</option>
+            </select>
+            @error('role') <div>{{ $message }}</div> @enderror
+        </div>
         <button type="submit">Register</button>
     </form>
     <a href="{{ route('login') }}">Already have an account? Login</a>

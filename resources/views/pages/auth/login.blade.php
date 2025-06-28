@@ -20,7 +20,7 @@
         </div>
         <div>
             <label>
-                <input type="checkbox" name="remember"> Remember Me
+                <input type="checkbox" name="remember"> Remember Me?
             </label>
         </div>
         <button type="submit">Login</button>
