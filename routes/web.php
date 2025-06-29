@@ -4,7 +4,10 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Response;
 
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\AuthController;
+
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\NewPasswordController;
 
 Route::redirect('/', '/welcome', Response::HTTP_MOVED_PERMANENTLY);
 
@@ -25,3 +28,20 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Protected route 
 Route::get('/dashboard', fn() => view('pages.dashboard'))->middleware('auth');
+
+
+//reset password
+Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])
+    ->middleware('guest')->name('password.request');
+
+// Handle sending reset link
+Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+    ->middleware('guest')->name('password.email');
+
+// Show form to reset password
+Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
+    ->middleware('guest')->name('password.reset');
+
+// Handle resetting the password
+Route::post('/reset-password', [NewPasswordController::class, 'store'])
+    ->middleware('guest')->name('password.update');

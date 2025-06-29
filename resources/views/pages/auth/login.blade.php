@@ -6,6 +6,11 @@
 </head>
 <body>
     <h1>Login</h1>
+    @if (session('status'))
+        <div style="color: green;">
+            {{ session('status') }}
+        </div>
+    @endif
     <form method="POST" action="{{ url('/login') }}">
         @csrf
         <div>
@@ -26,5 +31,7 @@
         <button type="submit">Login</button>
     </form>
     <a href="{{ route('register') }}">Don't have an account? Register</a>
+    <br>
+    <a href="{{ route('password.request') }}">Forgot/reset password</a>
 </body>
 </html>
