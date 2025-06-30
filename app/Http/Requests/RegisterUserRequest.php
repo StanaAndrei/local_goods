@@ -25,6 +25,7 @@ class RegisterUserRequest extends FormRequest
         'email' => 'required|email|unique:users,email',
         'password' => 'required|min:6|confirmed',
         'role' => 'required|in:' . \App\Enums\Role::SELLER->value . ',' . \App\Enums\Role::BUYER->value,
+        'buyer_type' => 'nullable|integer|in:' . \App\Enums\BuyerType::PRIVATE->value . ',' . \App\Enums\BuyerType::COMPANY->value,
       ];
     }
 

@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->rememberToken();
             $table->timestamps();
             $table->unsignedTinyInteger('role');
+            $table->unsignedTinyInteger('buyer_type')->nullable();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

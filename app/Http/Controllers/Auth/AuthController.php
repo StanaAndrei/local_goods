@@ -8,12 +8,17 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterUserRequest;
 use App\Enums\Role;
+use App\Enums\BuyerType;
 use App\Http\Controllers\Controller;
 
 class AuthController extends Controller {
     public function register(RegisterUserRequest $request) {
       $data = $request->validated();
       $data['role'] = Role::from((int)$data['role']); // Cast to enum
+      if (isset($data['buyer_type']) && $data['buyer_type'] !== null) {
+        $data['buyer_type'] = BuyerType::from((int)$data['buyer_type']);
+      }
+
       $user = User::create($data);
       Auth::login($user);
       return redirect('/dashboard');
