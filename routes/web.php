@@ -9,6 +9,8 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 
+use Livewire\Volt\Volt;
+
 Route::redirect('/', '/welcome', Response::HTTP_MOVED_PERMANENTLY);
 
 Route::get('/welcome', [MainController::class, 'welcome']);
@@ -16,7 +18,7 @@ Route::get('/welcome', [MainController::class, 'welcome']);
 Route::get('/home', fn() => view('pages.home'));
 
 // Registration
-Route::get('/register', fn() => view('pages.auth.register'))->name('register');
+Volt::route('/register', 'pages.auth.register')->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
 // Login
@@ -45,3 +47,10 @@ Route::get('/reset-password/{token}', [NewPasswordController::class, 'create'])
 // Handle resetting the password
 Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->middleware('guest')->name('password.update');
+
+
+
+//dbg
+
+// Temporarily add this to your route for debugging
+Volt::route('/test-volt', 'test-volt');

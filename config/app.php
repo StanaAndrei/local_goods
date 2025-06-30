@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\ServiceProvider; // This import was missing!
+
 return [
 
     /*
@@ -123,4 +125,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'providers' => ServiceProvider::defaultProviders()->merge([
+    App\Providers\VoltServiceProvider::class, // Add this line
+])->toArray(),
 ];

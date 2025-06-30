@@ -1,10 +1,10 @@
 <!-- resources/views/auth/register.blade.php -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-</head>
-<body>
+<?php
+use function Livewire\Volt\{state, layout};
+state(['message' => 'Volt is working!']);
+layout('layouts.app');
+?>
+<div>
     <h1>Register</h1>
     <form method="POST" action="{{ url('/register') }}">
         @csrf
@@ -38,5 +38,4 @@
         <button type="submit">Register</button>
     </form>
     <a href="{{ route('login') }}">Already have an account? Login</a>
-</body>
-</html>
+</div>
