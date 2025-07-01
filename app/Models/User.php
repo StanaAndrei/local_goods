@@ -57,4 +57,8 @@ class User extends Authenticatable {
     public function isTargetingBoth() {
       return $this->isSeller() && is_null($this->buyer_type);
     }
+
+    public function products() {
+      return $this->hasMany(\App\Models\Product::class, 'seller_id');
+    }
 }
