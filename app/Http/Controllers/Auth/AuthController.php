@@ -12,45 +12,48 @@ use App\Enums\BuyerType;
 use App\Http\Controllers\Controller;
 
 class AuthController extends Controller {
-    public function register(RegisterUserRequest $request) {
-      $data = $request->validated();
-      $data['role'] = Role::from((int)$data['role']); // Cast to enum
-      if (isset($data['buyer_type']) && $data['buyer_type'] !== null) {
+  public function register(RegisterUserRequest $request) {
+    $data = $request->validated();
+    $data['role'] = Role::from((int)$data['role']); // Cast to enum
+    
+    if (isset($data['buyer_type']) && $data['buyer_type'] !== '' && $data['buyer_type'] !== null) {
         $data['buyer_type'] = BuyerType::from((int)$data['buyer_type']);
-      }
-
-      $user = User::create($data);
-      Auth::login($user);
-      return redirect('/dashboard');
+    } else {
+        $data['buyer_type'] = null;
     }
 
-    public function login(Request $request) {
-      $credentials = $request->only('email', 'password');
-      $user = User::where('email', $credentials['email'])->first();
-      if (!$user) {
-        return back()->withErrors([
-            'email' => 'This email address is not registered.',
-        ])->withInput();
-      }
-      if (!Hash::check($credentials['password'], $user->password)) {
-        return back()->withErrors([
-            'password' => 'The password you entered is incorrect.',
-        ])->withInput();
-      }
+    $user = User::create($data);
+    Auth::login($user);
+    return redirect('/dashboard');
+  }
 
-      if (Auth::attempt($credentials, $request->boolean('remember'))) {
-        $request->session()->regenerate();
-        return redirect()->intended('dashboard');
-      }
-      return back()->withErrors([//other err
-        'email' => 'Login failed!',
-      ]);
+  public function login(Request $request) {
+    $credentials = $request->only('email', 'password');
+    $user = User::where('email', $credentials['email'])->first();
+    if (!$user) {
+      return back()->withErrors([
+          'email' => 'This email address is not registered.',
+      ])->withInput();
+    }
+    if (!Hash::check($credentials['password'], $user->password)) {
+      return back()->withErrors([
+          'password' => 'The password you entered is incorrect.',
+      ])->withInput();
     }
 
-    public function logout(Request $request) {
-      Auth::logout();
-      $request->session()->invalidate();
-      $request->session()->regenerateToken();
-      return redirect('/');
+    if (Auth::attempt($credentials, $request->boolean('remember'))) {
+      $request->session()->regenerate();
+      return redirect()->intended('dashboard');
     }
+    return back()->withErrors([//other err
+      'email' => 'Login failed!',
+    ]);
+  }
+
+  public function logout(Request $request) {
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+    return redirect('/');
+  }
 }

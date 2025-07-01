@@ -1,7 +1,14 @@
 <!-- resources/views/auth/register.blade.php -->
 <?php
 use function Livewire\Volt\{state, layout};
-state(['message' => 'Volt is working!']);
+use App\Enums\Role;
+use App\Enums\BuyerType;
+
+state([
+    'role' => old('role', Role::SELLER->value),
+    'buyer_type' => old('buyer_type', '')
+]);
+
 layout('layouts.app');
 ?>
 <div>
@@ -29,11 +36,22 @@ layout('layouts.app');
         </div>
         <div>
             <label>Role:</label>
-            <select name="role" required>
-                <option value="{{ \App\Enums\Role::SELLER->value }}" {{ old('role') == \App\Enums\Role::SELLER->value ? 'selected' : '' }}>Seller</option>
-                <option value="{{ \App\Enums\Role::BUYER->value }}" {{ old('role') == \App\Enums\Role::BUYER->value ? 'selected' : '' }}>Buyer</option>
+            <select name="role" wire:model.live="role" required>
+                <option value="{{ Role::SELLER->value }}">Seller</option>
+                <option value="{{ Role::BUYER->value }}">Buyer</option>
             </select>
             @error('role') <div>{{ $message }}</div> @enderror
+        </div>
+        <div>
+            <label>{{ $role == Role::SELLER->value ? 'Target buyer type:' : 'Buyer type:' }}</label>
+            <select name="buyer_type" wire:model.live="buyer_type" {{ $role == Role::BUYER->value ? 'required' : '' }}>
+                @if($role == Role::SELLER->value)
+                    <option value="">None</option>
+                @endif
+                <option value="{{ BuyerType::PRIVATE->value }}">Private</option>
+                <option value="{{ BuyerType::COMPANY->value }}">Company</option>
+            </select>
+            @error('buyer_type') <div>{{ $message }}</div> @enderror
         </div>
         <button type="submit">Register</button>
     </form>
