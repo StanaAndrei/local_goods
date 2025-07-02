@@ -2,9 +2,9 @@
 
 namespace App\Notifications;
 
+use Illuminate\Auth\Notifications\ResetPassword as BaseResetPassword;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Auth\Notifications\ResetPassword as BaseResetPassword;
 use Illuminate\Support\Facades\Log;
 
 class CustomResetPassword extends BaseResetPassword
@@ -31,6 +31,7 @@ class CustomResetPassword extends BaseResetPassword
 
         if (config('app.debug')) {
             Log::info("Password reset link for {$notifiable->email}: $resetUrl");
+
             return (new MailMessage)
                 ->subject('Password Reset (Debug Mode)')
                 ->line('Check your log file for the password reset link.');

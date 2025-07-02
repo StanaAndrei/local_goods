@@ -2,7 +2,8 @@
 
 namespace App\Enums;
 
-enum Subcategory: int {
+enum Subcategory: int
+{
     // Dairy
     case CHEESE = 1;
     case YOGURT = 2;

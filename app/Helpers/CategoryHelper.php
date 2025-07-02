@@ -5,8 +5,10 @@ namespace App\Helpers;
 use App\Enums\Category;
 use App\Enums\Subcategory;
 
-class CategoryHelper {
-    public static function subcategoriesForCategory(Category $category): array {
+class CategoryHelper
+{
+    public static function subcategoriesForCategory(Category $category): array
+    {
         return match ($category) {
             Category::DAIRY => [
                 Subcategory::CHEESE,
@@ -20,7 +22,7 @@ class CategoryHelper {
                 Subcategory::TOOLS,
                 Subcategory::OTHER,
             ],
-            //...
+            // ...
         };
     }
 }

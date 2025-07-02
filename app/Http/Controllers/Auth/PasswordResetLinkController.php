@@ -3,16 +3,19 @@
 namespace App\Http\Controllers\Auth;
 
 // use App\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
-use App\Http\Controllers\Controller;
 
-class PasswordResetLinkController extends Controller {
-    public function create() {
+class PasswordResetLinkController extends Controller
+{
+    public function create()
+    {
         return view('pages.auth.forgot-password');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate(['email' => 'required|email']);
 
         $status = Password::sendResetLink(

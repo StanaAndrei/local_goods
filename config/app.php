@@ -126,6 +126,6 @@ return [
     ],
 
     'providers' => ServiceProvider::defaultProviders()->merge([
-    App\Providers\VoltServiceProvider::class, // Add this line
-])->toArray(),
+        App\Providers\VoltServiceProvider::class, // Add this line
+    ])->toArray(),
 ];

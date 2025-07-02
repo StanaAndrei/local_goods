@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-          $table->id();
-          $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
-          $table->unsignedTinyInteger('category'); // Enum value
-          $table->unsignedTinyInteger('subcategory'); // Enum value
-          $table->string('name');
-          $table->text('description');
-          $table->decimal('quantity', 8, 2);
-          $table->string('unit', 20);
-          $table->decimal('price', 8, 2);
-          $table->json('additional_info')->nullable();
-          $table->timestamps();
+            $table->id();
+            $table->foreignId('seller_id')->constrained('users')->onDelete('cascade');
+            $table->unsignedTinyInteger('category'); // Enum value
+            $table->unsignedTinyInteger('subcategory'); // Enum value
+            $table->string('name');
+            $table->text('description');
+            $table->decimal('quantity', 8, 2);
+            $table->string('unit', 20);
+            $table->decimal('price', 8, 2);
+            $table->json('additional_info')->nullable();
+            $table->timestamps();
         });
     }
 

@@ -2,7 +2,8 @@
 
 namespace App\Enums;
 
-enum Category: int {
+enum Category: int
+{
     case VEGETABLES = 1;
     case FRUITS = 2;
     case DAIRY = 3;
