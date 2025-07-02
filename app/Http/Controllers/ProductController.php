@@ -53,4 +53,28 @@ class ProductController extends Controller
 
         return redirect()->route('products.create')->with('success', 'Product created!');
     }
+
+    public function mine()
+    {
+        $products = auth()->user()->products()->with('images')->latest()->get();
+        return view('pages.products.mine', compact('products'));
+    }
+
+    public function destroy(\App\Models\Product $product)
+    {
+        // Ensure the product belongs to the current seller
+        if ($product->seller_id !== auth()->id()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Delete images from storage
+        foreach ($product->images as $image) {
+            \Storage::disk('public')->delete($image->image_path);
+            $image->delete();
+        }
+
+        $product->delete();
+
+        return redirect()->route('products.mine')->with('success', 'Product deleted!');
+    }
 }
