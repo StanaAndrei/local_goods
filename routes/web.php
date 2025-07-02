@@ -49,6 +49,9 @@ Route::post('/reset-password', [NewPasswordController::class, 'store'])
     ->middleware('guest')->name('password.update');
 
 
+//Products
+//Volt::route('')
+
 
 //dbg
 
