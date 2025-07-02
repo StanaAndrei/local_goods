@@ -11,7 +11,7 @@ class StoreProductRequest extends FormRequest
     public function authorize(): bool
     {
         // Only allow if user is authenticated and is a seller
-        return auth()->check() && auth()->user()->role === \App\Enums\Role::SELLER;
+        return auth()->check() && auth()->user()->isSeller();
     }
 
     public function rules(): array
