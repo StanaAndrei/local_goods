@@ -63,11 +63,9 @@
             @error('price') <div style="color:red">{{ $message }}</div> @enderror
         </div>
 
-        <div>
-            <label>Additional Info (JSON):</label>
-            <input type="text" name="additional_info" value="{{ old('additional_info') }}">
-            @error('additional_info') <div style="color:red">{{ $message }}</div> @enderror
-        </div>
+        <!-- Replace the original additional_info field with our Volt component -->
+        @livewire('pages.products.additional-info-editor')
+        @error('additional_info') <div style="color:red">{{ $message }}</div> @enderror
 
         <div>
             <label>Images:</label>
