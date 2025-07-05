@@ -9,29 +9,8 @@
     <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
         @csrf
 
-        <div>
-            <label>Category:</label>
-            <select name="category" required>
-                @foreach(\App\Enums\Category::cases() as $cat)
-                    <option value="{{ $cat->value }}" {{ old('category') == $cat->value ? 'selected' : '' }}>
-                        {{ $cat->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('category') <div style="color:red">{{ $message }}</div> @enderror
-        </div>
-
-        <div>
-            <label>Subcategory:</label>
-            <select name="subcategory" required>
-                @foreach(\App\Enums\Subcategory::cases() as $sub)
-                    <option value="{{ $sub->value }}" {{ old('subcategory') == $sub->value ? 'selected' : '' }}>
-                        {{ $sub->name }}
-                    </option>
-                @endforeach
-            </select>
-            @error('subcategory') <div style="color:red">{{ $message }}</div> @enderror
-        </div>
+        <!-- Category and Subcategory Selector -->
+        @livewire('pages.products.category-subcategory-selector')
 
         <div>
             <label>Name:</label>

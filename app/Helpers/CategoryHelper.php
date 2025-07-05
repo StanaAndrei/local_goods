@@ -16,12 +16,21 @@ class CategoryHelper
                 Subcategory::MILK,
                 Subcategory::OTHER,
             ],
-            Category::HANDMADE => [
+            Category::HANDMADES => [
                 Subcategory::FURNITURE,
                 Subcategory::DECORATION,
                 Subcategory::TOOLS,
                 Subcategory::OTHER,
             ],
+            Category::MEAT => [
+                Subcategory::OTHER,
+            ],
+            Category::VEGETABLES => [
+                Subcategory::OTHER,
+            ],
+            Category::FRUITS => [
+                Subcategory::OTHER,
+            ]
             // ...
         };
     }
