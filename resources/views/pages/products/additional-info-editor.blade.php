@@ -1,10 +1,17 @@
 <?php
 
-use function Livewire\Volt\{state, computed};
+use function Livewire\Volt\{state, computed, mount};
 
 state([
     'pairs' => [['key' => '', 'value' => '']]
 ]);
+
+// Add a mount method to initialize with existing data
+mount(function ($initialPairs = null) {
+    if (!empty($initialPairs)) {
+        $this->pairs = $initialPairs;
+    }
+});
 
 $addPair = function () {
     $this->pairs[] = ['key' => '', 'value' => ''];

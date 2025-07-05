@@ -54,7 +54,11 @@ Route::middleware(['auth', 'seller'])->group(function () {
 Route::middleware(['auth', 'seller'])->group(function () {
     Route::get('/products/mine', [ProductController::class, 'mine'])->name('products.mine');
     Route::delete('/products/{product}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::get('/products/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
+    Route::put('/products/{product}', [ProductController::class, 'update'])->name('products.update');
 });
+
+Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
 // Temporarily add this to your route for debugging
 Volt::route('/test-volt', 'test-volt');

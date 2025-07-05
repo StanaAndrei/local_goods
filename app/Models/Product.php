@@ -14,7 +14,7 @@ class Product extends Model
     ];
 
     protected $casts = [
-        'additional_info' => 'array',
+        'additional_info' => 'json',
         'category' => Category::class,
         'subcategory' => Subcategory::class,
         'is_public' => 'boolean',
