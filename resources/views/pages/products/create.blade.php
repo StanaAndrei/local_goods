@@ -63,7 +63,6 @@
             @error('price') <div style="color:red">{{ $message }}</div> @enderror
         </div>
 
-        <!-- Replace the original additional_info field with our Volt component -->
         @livewire('pages.products.additional-info-editor')
         @error('additional_info') <div style="color:red">{{ $message }}</div> @enderror
 
