@@ -8,6 +8,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use App\Models\User;
 
 Route::redirect('/', '/welcome', Response::HTTP_MOVED_PERMANENTLY);
 
@@ -59,6 +60,39 @@ Route::middleware(['auth', 'seller'])->group(function () {
 });
 
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
+
+// email verif
+// Show notice to verify email
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+// Handle verification link
+Route::get('/email/verify/{id}/{hash}', function ($id, $hash, Request $request) {
+    $user = User::findOrFail($id);
+
+    // Check the hash matches
+    if (! hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
+        abort(403, 'Invalid verification link.');
+    }
+
+    // If not verified, mark as verified
+    if (! $user->hasVerifiedEmail()) {
+        $user->markEmailAsVerified();
+    }
+
+    // Optionally, log the user in after verification
+    Auth::login($user);
+
+    return redirect('/dashboard')->with('status', 'Your email has been verified!');
+})->middleware(['signed'])->name('verification.verify');
+
+// Resend verification email
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('status', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 // Temporarily add this to your route for debugging
 Volt::route('/test-volt', 'test-volt');

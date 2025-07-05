@@ -25,7 +25,12 @@ class AuthController extends Controller
         }
 
         $user = User::create($data);
-        Auth::login($user);
+
+        if ($user->isPrivateBuyer()) {
+          Auth::login($user);
+        } else {
+          $user->sendEmailVerificationNotification();
+        }
 
         return redirect('/dashboard');
     }
@@ -43,6 +48,11 @@ class AuthController extends Controller
             return back()->withErrors([
                 'password' => 'The password you entered is incorrect.',
             ])->withInput();
+        }
+        if (! $user->isPrivateBuyer() && ! $user->hasVerifiedEmail()) {
+            return back()->withErrors([
+                'email' => 'You must verify your email address before logging in.',
+            ]);
         }
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {

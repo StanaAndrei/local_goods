@@ -11,6 +11,11 @@
             {{ session('status') }}
         </div>
     @endif
+    @if ($errors->has('email'))
+      <div style="color: red;">
+          {{ $errors->first('email') }}
+      </div>
+    @endif
     <form method="POST" action="{{ url('/login') }}">
         @csrf
         <div>
