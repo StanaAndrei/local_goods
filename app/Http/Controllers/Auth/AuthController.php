@@ -27,9 +27,9 @@ class AuthController extends Controller
         $user = User::create($data);
 
         if ($user->isPrivateBuyer()) {
-          Auth::login($user);
+            Auth::login($user);
         } else {
-          $user->sendEmailVerificationNotification();
+            $user->sendEmailVerificationNotification();
         }
 
         return redirect('/dashboard');

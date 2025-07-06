@@ -4,9 +4,8 @@ namespace App\Models;
 
 use App\Enums\Category;
 use App\Enums\Subcategory;
-
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {

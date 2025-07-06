@@ -5,16 +5,17 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
-use App\Models\User;
 
 Route::redirect('/', '/welcome', Response::HTTP_MOVED_PERMANENTLY);
 
 Route::get('/welcome', [MainController::class, 'welcome']);
 
-Route::get('/home', fn () => view('pages.home'));
+// Route::get('/home', fn () => view('pages.home'));
 
 // Registration
 Volt::route('/register', 'pages.auth.register')->name('register');
@@ -96,3 +97,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 // Temporarily add this to your route for debugging
 Volt::route('/test-volt', 'test-volt');
+
+// user
+Route::get('/profile/{id}', [UserController::class, 'show']);

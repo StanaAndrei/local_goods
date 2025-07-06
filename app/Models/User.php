@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\BuyerType;
 use App\Enums\Role;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -76,5 +75,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function sendEmailVerificationNotification()
     {
         $this->notify(new \App\Notifications\CustomVerifyEmail);
+    }
+
+    public function getRoleNameAttribute()
+    {
+        return Role::tryFrom($this->role)?->name();
     }
 }
