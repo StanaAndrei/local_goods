@@ -101,7 +101,7 @@
         <div>
             <label>{{ $product->images && $product->images->count() > 0 ? 'Add More Images:' : 'Images:' }}</label>
             <input type="file" name="images[]" multiple 
-                   {{ $product->images && $product->images->count() > 0 ? '' : 'required' }}>
+                   {{ $product->images && $product->images->count() > 0 ? '' : ''/*required case*/ }}>
             <p>You can select multiple images at once.</p>
             @error('images.*') <div style="color:red">{{ $message }}</div> @enderror
         </div>

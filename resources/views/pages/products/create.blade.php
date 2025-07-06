@@ -47,7 +47,7 @@
 
         <div>
             <label>Images:</label>
-            <input type="file" name="images[]" multiple required>
+            <input type="file" name="images[]" multiple>
             @error('images.*') <div style="color:red">{{ $message }}</div> @enderror
         </div>
 

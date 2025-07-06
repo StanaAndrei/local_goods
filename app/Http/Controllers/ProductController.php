@@ -6,6 +6,8 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProductController extends Controller
 {
