@@ -99,6 +99,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 Volt::route('/test-volt', 'test-volt');
 
 // user
-Route::get('/profile/{id}', [UserController::class, 'show']);
+Route::get('/profile/{id}', [UserController::class, 'show'])->name('user.profile');
 
 Route::get('/products', [ProductController::class, 'all'])->name('products.all');

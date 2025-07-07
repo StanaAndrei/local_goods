@@ -36,7 +36,7 @@ class UserFactory extends Factory
             'buyer_type' => $role === Role::BUYER
                 ? $this->faker->randomElement([BuyerType::PRIVATE, BuyerType::COMPANY])
                 : null,
-        ];
+            'phone_number' => $this->faker->numerify('+1 (###) ###-####'),        ];
     }
 
     /**

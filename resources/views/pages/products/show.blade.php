@@ -118,9 +118,11 @@
                         </button>
                     </form>
                 @else
-                    <button class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                    <!-- In the product view page (show.blade.php) -->
+                    <a href="{{ route('user.profile', $product->seller->id) }}" 
+                      class="w-full block py-2 bg-green-600 text-white text-center rounded hover:bg-green-700 transition">
                         Contact Seller
-                    </button>
+                    </a>
                 @endif
             </div>
         </div>
