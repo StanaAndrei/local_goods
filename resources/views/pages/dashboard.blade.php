@@ -9,6 +9,8 @@
             Welcome, <span style="color: #ff6d00;">{{ Auth::user()->name }}</span>
         </h1>
         
+        <p>{{ Auth::user()->balance }} {{ '€' }}</p>
+
         <form method="POST" action="{{ route('logout') }}" style="margin-top: 1rem;">
             @csrf
             <button type="submit" 
