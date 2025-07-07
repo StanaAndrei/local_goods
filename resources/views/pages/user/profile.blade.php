@@ -17,6 +17,7 @@
                         <div>
                             <p class="mb-1"><strong>Email:</strong> {{ $user->email }}</p>
                             <p class="mb-1"><strong>Role:</strong> {{ $user->role->name }}</p>
+                            <p class="mb-1"><strong>Phone:</strong> {{ $user->phone_number }}</p>
                             <p class="mb-1"><strong>Joined:</strong> {{ $user->created_at->format('M Y') }}</p>
                         </div>
                     </div>
