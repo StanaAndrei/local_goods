@@ -100,3 +100,5 @@ Volt::route('/test-volt', 'test-volt');
 
 // user
 Route::get('/profile/{id}', [UserController::class, 'show']);
+
+Route::get('/products', [ProductController::class, 'all'])->name('products.all');

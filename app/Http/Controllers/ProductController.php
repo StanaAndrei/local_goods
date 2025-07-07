@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -138,5 +139,60 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('products.mine')->with('success', 'Product deleted!');
+    }
+
+    /**
+     * Display a listing of all products with filtering and pagination.
+     */
+    public function all(Request $request)
+    {
+        $query = Product::with(['images', 'seller']);
+
+        // Apply search filter
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        // Apply category filter
+        if ($request->filled('category')) {
+            $query->where('category', (int) $request->category);
+
+            // Get available subcategories for the selected category
+            $category = \App\Enums\Category::from((int) $request->category);
+            $availableSubcategories = \App\Helpers\CategoryHelper::subcategoriesForCategory($category);
+        } else {
+            $availableSubcategories = [];
+        }
+
+        // Apply subcategory filter
+        if ($request->filled('subcategory')) {
+            $query->where('subcategory', (int) $request->subcategory);
+        }
+
+        // Apply max price filter
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', (float) $request->max_price);
+        }
+
+        // Apply date range filter
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        // Apply sorting
+        $query->latest();
+
+        // Get paginated results
+        $products = $query->paginate(12)->withQueryString();
+
+        return view('pages.products.all', compact('products', 'availableSubcategories'));
     }
 }
