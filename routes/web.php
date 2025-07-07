@@ -29,7 +29,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Protected route
-Route::get('/dashboard', fn () => view('pages.dashboard'))->middleware('auth');
+Route::get('/dashboard', fn () => view('pages.dashboard'))->middleware('auth')->name('dashboard');
 
 // reset password
 Route::get('/forgot-password', [PasswordResetLinkController::class, 'create'])

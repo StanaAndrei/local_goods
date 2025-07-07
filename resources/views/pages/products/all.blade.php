@@ -1,43 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto py-8">
-    <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">All Products</h1>
+<div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+    <!-- Header with Create Button -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h1 style="font-size: 1.5rem; font-weight: bold; color: #333;">All Products</h1>
         
         @auth
-            <a href="{{ route('products.create') }}" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+            <a href="{{ route('products.create') }}" style="background-color: #ff6d00; color: white; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-weight: 500; transition: background-color 0.3s;">
                 List a Product
             </a>
         @endauth
     </div>
     
     <!-- Filter Form -->
-    <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
-        <h2 class="text-lg font-semibold mb-4">Filter Products</h2>
+    <div style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 1.5rem;">
+        <h2 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 1rem; color: #333;">Filter Products</h2>
         
         <form action="{{ route('products.all') }}" method="GET">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
                 <!-- Search -->
                 <div>
-                    <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Search</label>
+                    <label style="display: block; font-size: 0.875rem; font-weight: 500; color: #444; margin-bottom: 0.25rem;">Search</label>
                     <input 
                         type="text" 
                         id="search" 
                         name="search" 
                         value="{{ request('search') }}"
                         placeholder="Search in name & description" 
-                        class="w-full px-3 py-2 border rounded text-sm"
+                        style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.875rem;"
                     >
                 </div>
                 
                 <!-- Category -->
                 <div>
-                    <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                    <label style="display: block; font-size: 0.875rem; font-weight: 500; color: #444; margin-bottom: 0.25rem;">Category</label>
                     <select 
                         id="category" 
                         name="category" 
-                        class="w-full px-3 py-2 border rounded text-sm"
+                        style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.875rem;"
                         onchange="updateSubcategories()"
                     >
                         <option value="">All Categories</option>
@@ -51,11 +52,11 @@
                 
                 <!-- Subcategory -->
                 <div>
-                    <label for="subcategory" class="block text-sm font-medium text-gray-700 mb-1">Subcategory</label>
+                    <label style="display: block; font-size: 0.875rem; font-weight: 500; color: #444; margin-bottom: 0.25rem;">Subcategory</label>
                     <select 
                         id="subcategory" 
                         name="subcategory" 
-                        class="w-full px-3 py-2 border rounded text-sm"
+                        style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.875rem;"
                     >
                         <option value="">All Subcategories</option>
                         @foreach($availableSubcategories ?? [] as $subcat)
@@ -68,7 +69,7 @@
                 
                 <!-- Max Price -->
                 <div>
-                    <label for="max_price" class="block text-sm font-medium text-gray-700 mb-1">Maximum Price (€)</label>
+                    <label style="display: block; font-size: 0.875rem; font-weight: 500; color: #444; margin-bottom: 0.25rem;">Maximum Price (€)</label>
                     <input 
                         type="number" 
                         id="max_price" 
@@ -77,45 +78,45 @@
                         min="0" 
                         step="0.01" 
                         placeholder="Max price" 
-                        class="w-full px-3 py-2 border rounded text-sm"
+                        style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.875rem;"
                     >
                 </div>
                 
                 <!-- Date From -->
                 <div>
-                    <label for="date_from" class="block text-sm font-medium text-gray-700 mb-1">From Date</label>
+                    <label style="display: block; font-size: 0.875rem; font-weight: 500; color: #444; margin-bottom: 0.25rem;">From Date</label>
                     <input 
                         type="date" 
                         id="date_from" 
                         name="date_from" 
                         value="{{ request('date_from') }}"
-                        class="w-full px-3 py-2 border rounded text-sm"
+                        style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.875rem;"
                     >
                 </div>
                 
                 <!-- Date To -->
                 <div>
-                    <label for="date_to" class="block text-sm font-medium text-gray-700 mb-1">To Date</label>
+                    <label style="display: block; font-size: 0.875rem; font-weight: 500; color: #444; margin-bottom: 0.25rem;">To Date</label>
                     <input 
                         type="date" 
                         id="date_to" 
                         name="date_to" 
                         value="{{ request('date_to') }}"
-                        class="w-full px-3 py-2 border rounded text-sm"
+                        style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 0.875rem;"
                     >
                 </div>
             </div>
             
-            <div class="mt-4 flex justify-end space-x-3">
+            <div style="margin-top: 1rem; display: flex; justify-content: flex-end; gap: 0.75rem;">
                 @if(request()->anyFilled(['search', 'category', 'subcategory', 'max_price', 'date_from', 'date_to']))
-                    <a href="{{ route('products.all') }}" class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 text-sm">
+                    <a href="{{ route('products.all') }}" style="background-color: #eee; color: #333; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-size: 0.875rem; transition: background-color 0.3s;">
                         Clear Filters
                     </a>
                 @endif
                 
                 <button 
                     type="submit" 
-                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
+                    style="background-color: #003d7e; color: white; padding: 0.5rem 1rem; border: none; border-radius: 4px; font-size: 0.875rem; cursor: pointer; transition: background-color 0.3s;"
                 >
                     Apply Filters
                 </button>
@@ -124,7 +125,7 @@
     </div>
     
     <!-- Results Count -->
-    <div class="mb-4 text-gray-600">
+    <div style="margin-bottom: 1rem; color: #666; font-size: 0.875rem;">
         Found {{ $products->total() }} product{{ $products->total() !== 1 ? 's' : '' }}
         @if(request()->anyFilled(['search', 'category', 'subcategory', 'max_price', 'date_from', 'date_to']))
             with applied filters
@@ -133,34 +134,34 @@
     
     <!-- Products Grid -->
     @if($products->isEmpty())
-        <div class="bg-gray-50 rounded-lg p-8 text-center">
-            <p class="text-gray-600">No products found matching your criteria.</p>
+        <div style="background-color: #f8f9fa; border-radius: 8px; padding: 2rem; text-align: center;">
+            <p style="color: #666;">No products found matching your criteria.</p>
             @if(request()->anyFilled(['search', 'category', 'subcategory', 'max_price', 'date_from', 'date_to']))
-                <a href="{{ route('products.all') }}" class="mt-4 inline-block px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                <a href="{{ route('products.all') }}" style="display: inline-block; margin-top: 1rem; background-color: #003d7e; color: white; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none;">
                     Clear Filters
                 </a>
             @endif
         </div>
     @else
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.5rem;">
             @foreach($products as $product)
-                <div class="bg-white rounded-lg shadow-sm overflow-hidden flex flex-col h-full">
+                <div style="background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column; height: 100%;">
                     <!-- Product Image -->
-                    <div class="h-48 overflow-hidden">
+                    <div style="height: 200px; overflow: hidden;">
                         @if($product->images->isNotEmpty())
                             <img src="{{ asset('storage/' . $product->images->first()->image_path) }}" 
                                  alt="{{ $product->name }}" 
-                                 class="w-full h-full object-cover">
+                                 style="width: 100%; height: 100%; object-fit: cover;">
                         @else
-                            <div class="w-full h-full bg-gray-200 flex items-center justify-center">
-                                <span class="text-gray-400">No image</span>
+                            <div style="width: 100%; height: 100%; background-color: #eee; display: flex; align-items: center; justify-content: center;">
+                                <span style="color: #999;">No image</span>
                             </div>
                         @endif
                     </div>
                     
                     <!-- Product Info -->
-                    <div class="p-4 flex-grow flex flex-col">
-                        <div class="text-sm text-gray-500 mb-1">
+                    <div style="padding: 1rem; flex-grow: 1; display: flex; flex-direction: column;">
+                        <div style="font-size: 0.75rem; color: #666; margin-bottom: 0.25rem;">
                             @if($product->category instanceof \App\Enums\Category)
                                 {{ $product->category->name }} › {{ $product->subcategory->name }}
                             @else
@@ -169,25 +170,25 @@
                             @endif
                         </div>
                         
-                        <h3 class="text-lg font-semibold mb-2 text-gray-800">{{ $product->name }}</h3>
+                        <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; color: #333;">{{ $product->name }}</h3>
                         
-                        <p class="text-gray-600 mb-3 line-clamp-2 flex-grow">
+                        <p style="color: #666; margin-bottom: 0.75rem; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; flex-grow: 1;">
                             {{ Str::limit($product->description, 100) }}
                         </p>
                         
-                        <div class="flex justify-between items-center mt-auto">
-                            <span class="text-gray-700">{{ $product->quantity }} {{ $product->unit }}</span>
-                            <span class="font-bold text-green-600">{{ number_format($product->price, 2) }} €</span>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: auto;">
+                            <span style="color: #444;">{{ $product->quantity }} {{ $product->unit }}</span>
+                            <span style="font-weight: bold; color: #ff6d00;">{{ number_format($product->price, 2) }} €</span>
                         </div>
                         
-                        <div class="text-xs text-gray-500 mt-2">
+                        <div style="font-size: 0.75rem; color: #666; margin-top: 0.5rem;">
                             Listed {{ $product->created_at->diffForHumans() }}
                         </div>
                     </div>
                     
                     <!-- Action Button -->
                     <a href="{{ route('products.show', $product) }}" 
-                       class="block w-full py-2 bg-blue-600 text-white text-center hover:bg-blue-700 transition">
+                       style="display: block; width: 100%; padding: 0.5rem; background-color: #003d7e; color: white; text-align: center; text-decoration: none; transition: background-color 0.3s;">
                         View Details
                     </a>
                 </div>
@@ -195,7 +196,7 @@
         </div>
         
         <!-- Pagination -->
-        <div class="mt-8">
+        <div style="margin-top: 2rem;">
             {{ $products->withQueryString()->links() }}
         </div>
     @endif

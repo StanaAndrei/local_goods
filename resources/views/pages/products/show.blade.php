@@ -1,30 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto py-8">
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+<div style="max-width: 1200px; margin: 0 auto; padding: 2rem 1rem;">
+    <div style="background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); overflow: hidden;">
         <!-- Product Images -->
-        <div class="relative h-64 bg-gray-200">
+        <div style="position: relative; height: 400px; background-color: #f5f5f5;">
             @if($product->images->count() > 0)
-                <div class="flex overflow-x-auto h-full">
+                <div style="display: flex; overflow-x: auto; height: 100%;">
                     @foreach($product->images as $img)
-                      <img src="{{ asset('storage/' . $img->image_path) }}" alt="Product Image" style="width: 60px; height: 60px; object-fit: cover;">
+                        <img src="{{ asset('storage/' . $img->image_path) }}" 
+                             alt="Product Image" 
+                             style="width: 100%; height: 100%; object-fit: contain; flex-shrink: 0;">
                     @endforeach
                 </div>
             @else
-                <div class="flex items-center justify-center h-full">
-                    <span class="text-gray-400">No images available</span>
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                    <span style="color: #999;">No images available</span>
                 </div>
             @endif
         </div>
         
         <!-- Product Info -->
-        <div class="p-6">
-            <div class="flex justify-between items-start">
+        <div style="padding: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-800">{{ $product->name }}</h1>
-                    <div class="flex items-center mt-1">
-                        <span class="text-sm text-gray-600">
+                    <h1 style="font-size: 1.5rem; font-weight: bold; color: #333;">{{ $product->name }}</h1>
+                    <div style="display: flex; align-items: center; margin-top: 0.5rem;">
+                        <span style="font-size: 0.875rem; color: #666;">
                             @if($product->category instanceof \App\Enums\Category)
                                 {{ $product->category->name }} › 
                                 {{ $product->subcategory->name }}
@@ -35,42 +37,42 @@
                         </span>
                     </div>
                 </div>
-                <div class="text-right">
-                    <div class="text-2xl font-bold text-green-600">
+                <div style="text-align: right;">
+                    <div style="font-size: 1.5rem; font-weight: bold; color: #ff6d00;">
                         {{ number_format($product->price, 2) }} €
                     </div>
-                    <div class="text-sm text-gray-600">
+                    <div style="font-size: 0.875rem; color: #666;">
                         {{ $product->quantity }} {{ $product->unit }}
                     </div>
                 </div>
             </div>
             
             <!-- Seller Info -->
-            <div class="mt-4 pb-4 border-b border-gray-200">
-                <div class="flex items-center">
-                    <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center">
-                        <span class="text-gray-600 font-bold">{{ substr($product->seller->name, 0, 1) }}</span>
+            <div style="margin-top: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #eee;">
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 40px; height: 40px; background-color: #e0e0e0; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        <span style="color: #666; font-weight: bold;">{{ substr($product->seller->name, 0, 1) }}</span>
                     </div>
-                    <div class="ml-3">
-                        <p class="text-sm font-medium text-gray-900">{{ $product->seller->name }}</p>
-                        <p class="text-xs text-gray-500">Seller</p>
+                    <div style="margin-left: 0.75rem;">
+                        <p style="font-size: 0.875rem; font-weight: 500; color: #333;">{{ $product->seller->name }}</p>
+                        <p style="font-size: 0.75rem; color: #666;">Seller</p>
                     </div>
                 </div>
             </div>
             
             <!-- Description -->
-            <div class="mt-4">
-                <h2 class="text-lg font-semibold text-gray-800">Description</h2>
-                <div class="mt-2 text-gray-600 space-y-2">
+            <div style="margin-top: 1.5rem;">
+                <h2 style="font-size: 1.125rem; font-weight: 600; color: #333;">Description</h2>
+                <div style="margin-top: 0.5rem; color: #666; line-height: 1.6;">
                     {!! nl2br(e($product->description)) !!}
                 </div>
             </div>
             
             <!-- Additional Info -->
             @if($product->additional_info)
-                <div class="mt-6">
-                    <h2 class="text-lg font-semibold text-gray-800">Additional Information</h2>
-                    <div class="mt-2 grid grid-cols-2 gap-4">
+                <div style="margin-top: 1.5rem;">
+                    <h2 style="font-size: 1.125rem; font-weight: 600; color: #333;">Additional Information</h2>
+                    <div style="margin-top: 0.5rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem;">
                         @php
                             $additionalInfo = is_string($product->additional_info) 
                                 ? json_decode($product->additional_info, true) 
@@ -78,9 +80,9 @@
                         @endphp
                         
                         @foreach($additionalInfo ?? [] as $key => $value)
-                            <div class="col-span-1">
-                                <span class="text-sm font-medium text-gray-500">{{ $key }}:</span>
-                                <span class="ml-2 text-sm text-gray-900">{{ $value }}</span>
+                            <div>
+                                <span style="font-size: 0.875rem; font-weight: 500; color: #666;">{{ $key }}:</span>
+                                <span style="margin-left: 0.5rem; font-size: 0.875rem; color: #333;">{{ $value }}</span>
                             </div>
                         @endforeach
                     </div>
@@ -88,7 +90,7 @@
             @endif
             
             <!-- Date Info -->
-            <div class="mt-6 text-sm text-gray-500">
+            <div style="margin-top: 1.5rem; font-size: 0.875rem; color: #666;">
                 <p>Listed on {{ $product->created_at->format('F j, Y') }}</p>
                 @if($product->updated_at && $product->updated_at->gt($product->created_at))
                     <p>Last updated {{ $product->updated_at->diffForHumans() }}</p>
@@ -96,31 +98,25 @@
             </div>
             
             <!-- Action Buttons -->
-            <div class="mt-6 flex space-x-3">
-                {{-- <a href="{{ route('products.index') }}" 
-                   class="px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300">
-                    Back to Products
-                </a> --}}
-                
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem;">
                 @if(auth()->id() === $product->seller_id)
                     <a href="{{ route('products.edit', $product) }}" 
-                       class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                       style="padding: 0.5rem 1rem; background-color: #003d7e; color: white; border-radius: 4px; text-decoration: none;">
                         Edit Product
                     </a>
                     
-                    <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline">
+                    <form action="{{ route('products.destroy', $product) }}" method="POST" style="margin: 0;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" 
-                                class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                                style="padding: 0.5rem 1rem; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;"
                                 onclick="return confirm('Are you sure you want to delete this product?')">
                             Delete
                         </button>
                     </form>
                 @else
-                    <!-- In the product view page (show.blade.php) -->
                     <a href="{{ route('user.profile', $product->seller->id) }}" 
-                      class="w-full block py-2 bg-green-600 text-white text-center rounded hover:bg-green-700 transition">
+                       style="display: block; width: 100%; padding: 0.75rem; background-color: #ff6d00; color: white; text-align: center; text-decoration: none; border-radius: 4px;">
                         Contact Seller
                     </a>
                 @endif
