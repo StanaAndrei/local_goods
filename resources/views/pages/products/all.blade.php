@@ -196,8 +196,31 @@
         </div>
         
         <!-- Pagination -->
-        <div style="margin-top: 2rem;">
-            {{ $products->withQueryString()->links() }}
+        <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 0.5rem; font-size: 0.875rem; flex-wrap: wrap;">
+            @foreach ($products->withQueryString()->links()->elements[0] as $page => $url)
+                @if ($page == $products->currentPage())
+                    <span style="padding: 0.4rem 0.75rem; border-radius: 4px; border: 1px solid #003d7e; background-color: #003d7e; color: white; min-width: 2.5rem; text-align: center; font-weight: 500; display: inline-block;">
+                        {{ $page }}
+                    </span>
+                @else
+                    <a href="{{ $url }}" style="padding: 0.4rem 0.75rem; border-radius: 4px; border: 1px solid #ddd; color: #003d7e; text-decoration: none; min-width: 2.5rem; text-align: center; font-weight: 500; display: inline-block; transition: background-color 0.3s, color 0.3s;">
+                        {{ $page }}
+                    </a>
+                @endif
+            @endforeach
+
+            {{-- Next and Previous links --}}
+            @if ($products->onFirstPage() === false)
+                <a href="{{ $products->previousPageUrl() }}" style="padding: 0.4rem 0.75rem; border-radius: 4px; border: 1px solid #ddd; color: #003d7e; text-decoration: none; min-width: 2.5rem; text-align: center; font-weight: 500; display: inline-block; transition: background-color 0.3s, color 0.3s;">
+                    &laquo;
+                </a>
+            @endif
+
+            @if ($products->hasMorePages())
+                <a href="{{ $products->nextPageUrl() }}" style="padding: 0.4rem 0.75rem; border-radius: 4px; border: 1px solid #ddd; color: #003d7e; text-decoration: none; min-width: 2.5rem; text-align: center; font-weight: 500; display: inline-block; transition: background-color 0.3s, color 0.3s;">
+                    &raquo;
+                </a>
+            @endif
         </div>
     @endif
     
