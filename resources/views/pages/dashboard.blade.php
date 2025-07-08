@@ -11,6 +11,8 @@
         
         <p>{{ Auth::user()->balance }} {{ '€' }}</p>
 
+        <a href="{{ route('user.profile', ['id' => auth()->id()]) }}">My profile</a>
+        
         <form method="POST" action="{{ route('logout') }}" style="margin-top: 1rem;">
             @csrf
             <button type="submit" 

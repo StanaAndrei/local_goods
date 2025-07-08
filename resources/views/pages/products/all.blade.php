@@ -7,9 +7,11 @@
         <h1 style="font-size: 1.5rem; font-weight: bold; color: #333;">All Products</h1>
         
         @auth
-            <a href="{{ route('products.create') }}" style="background-color: #ff6d00; color: white; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-weight: 500; transition: background-color 0.3s;">
-                List a Product
-            </a>
+          @if (Auth::user()->role->name == 'SELLER')  
+          <a href="{{ route('products.create') }}" style="background-color: #ff6d00; color: white; padding: 0.5rem 1rem; border-radius: 4px; text-decoration: none; font-weight: 500; transition: background-color 0.3s;">
+              List a Product
+          </a>
+          @endif
         @endauth
     </div>
     
