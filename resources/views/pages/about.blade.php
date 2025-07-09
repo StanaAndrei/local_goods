@@ -62,7 +62,7 @@
         
         <h2>Our Story</h2>
         <p>
-            Founded in 2023, Local Goods is Romania's premier marketplace for authentic local products. 
+            Founded in 2k25, Local Goods is Romania's premier marketplace for authentic local products. 
             We connect buyers with trusted sellers across the country, promoting Romanian craftsmanship and quality goods.
         </p>
         
