@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Acquisition;
+use App\Models\User;
+use App\Models\Product;
 
 class AcquisitionSeeder extends Seeder
 {
@@ -12,6 +14,15 @@ class AcquisitionSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $buyer = User::where('role', \App\Enums\Role::BUYER)->first();
+        $product = Product::first(); // product already has seller_id
+
+        Acquisition::create([
+            'buyer_id' => $buyer->id,
+            'product_id' => $product->id,
+            'quantity' => 5,
+            'unit' => 'pcs',
+            'cost' => 100.00,
+        ]);
     }
 }

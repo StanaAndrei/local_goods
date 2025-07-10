@@ -81,4 +81,21 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Role::tryFrom($this->role)?->name();
     }
+
+    public function acquisitionsAsBuyer()
+    {
+        return $this->hasMany(Acquisition::class, 'buyer_id');
+    }
+
+    public function acquisitionsAsSeller()
+{
+    return $this->hasManyThrough(
+        Acquisition::class,
+        Product::class,
+        'seller_id',      // Foreign key on products table...
+        'product_id',     // Foreign key on acquisitions table...
+        'id',             // Local key on users table...
+        'id'              // Local key on products table...
+    );
+}
 }
