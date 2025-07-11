@@ -98,30 +98,115 @@
             </div>
             
             <!-- Action Buttons -->
-            <div style="margin-top: 1.5rem; display: flex; gap: 0.75rem;">
+            <div style="margin-top: 1.5rem;">
                 @if(auth()->id() === $product->seller_id)
-                    <a href="{{ route('products.edit', $product) }}" 
-                       style="padding: 0.5rem 1rem; background-color: #003d7e; color: white; border-radius: 4px; text-decoration: none;">
-                        Edit Product
-                    </a>
-                    
-                    <form action="{{ route('products.destroy', $product) }}" method="POST" style="margin: 0;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" 
-                                style="padding: 0.5rem 1rem; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;"
-                                onclick="return confirm('Are you sure you want to delete this product?')">
-                            Delete
-                        </button>
-                    </form>
+                    <div style="display: flex; gap: 0.75rem;">
+                        <a href="{{ route('products.edit', $product) }}" 
+                           style="padding: 0.5rem 1rem; background-color: #003d7e; color: white; border-radius: 4px; text-decoration: none;">
+                            Edit Product
+                        </a>
+                        
+                        <form action="{{ route('products.destroy', $product) }}" method="POST" style="margin: 0;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" 
+                                    style="padding: 0.5rem 1rem; background-color: #f44336; color: white; border: none; border-radius: 4px; cursor: pointer;"
+                                    onclick="return confirm('Are you sure you want to delete this product?')">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
                 @else
+                    <!-- Contact Seller Button -->
                     <a href="{{ route('user.profile', $product->seller->id) }}" 
-                       style="display: block; width: 100%; padding: 0.75rem; background-color: #ff6d00; color: white; text-align: center; text-decoration: none; border-radius: 4px;">
+                       style="display: block; width: 100%; padding: 0.75rem; background-color: #ff6d00; color: white; text-align: center; text-decoration: none; border-radius: 4px; margin-bottom: 1rem;">
                         Contact Seller
                     </a>
+                    
+                    <!-- Purchase Form -->
+                    @auth
+                        @if(auth()->user()->isBuyer())
+                            <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 8px; padding: 1.5rem; margin-top: 1rem;">
+                                <h3 style="font-size: 1.125rem; font-weight: 600; color: #333; margin-bottom: 1rem;">Purchase Product</h3>
+                                
+                                @if(session('error'))
+                                    <div style="background-color: #f8d7da; color: #721c24; padding: 0.75rem; border-radius: 4px; margin-bottom: 1rem; border: 1px solid #f5c6cb;">
+                                        {{ session('error') }}
+                                    </div>
+                                @endif
+                                
+                                @if(session('success'))
+                                    <div style="background-color: #d4edda; color: #155724; padding: 0.75rem; border-radius: 4px; margin-bottom: 1rem; border: 1px solid #c3e6cb;">
+                                        {{ session('success') }}
+                                    </div>
+                                @endif
+                                
+                                <form action="{{ route('acquisitions.store') }}" method="POST" id="purchaseForm">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    
+                                    <div style="margin-bottom: 1rem;">
+                                        <label for="quantity" style="display: block; font-size: 0.875rem; font-weight: 500; color: #333; margin-bottom: 0.5rem;">
+                                            Quantity ({{ $product->unit }})
+                                        </label>
+                                        <input type="number" 
+                                               id="quantity" 
+                                               name="quantity" 
+                                               min="0.01" 
+                                               max="{{ $product->quantity }}" 
+                                               step="0.01"
+                                               value="1"
+                                               style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; font-size: 0.875rem;"
+                                               oninput="updateTotalCost()"
+                                               required>
+                                        <small style="color: #666; font-size: 0.75rem;">Available: {{ $product->quantity }} {{ $product->unit }}</small>
+                                        @error('quantity')
+                                            <div style="color: #dc3545; font-size: 0.75rem; margin-top: 0.25rem;">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    
+                                    <div style="margin-bottom: 1rem; padding: 0.75rem; background-color: #e9ecef; border-radius: 4px;">
+                                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                                            <span style="font-size: 0.875rem; color: #666;">Unit Price:</span>
+                                            <span style="font-size: 0.875rem; font-weight: 500;">{{ number_format($product->price, 2) }} €</span>
+                                        </div>
+                                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                                            <span style="font-size: 1rem; font-weight: 600; color: #333;">Total Cost:</span>
+                                            <span id="totalCost" style="font-size: 1.125rem; font-weight: bold; color: #ff6d00;">{{ number_format($product->price, 2) }} €</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <button type="submit" 
+                                            style="width: 100%; padding: 0.75rem; background-color: #28a745; color: white; border: none; border-radius: 4px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s;"
+                                            onmouseover="this.style.backgroundColor='#218838'"
+                                            onmouseout="this.style.backgroundColor='#28a745'"
+                                            onclick="return confirm('Are you sure you want to purchase this product?')">
+                                        Buy Now
+                                    </button>
+                                </form>
+                            </div>
+                        @else
+                            <div style="background-color: #fff3cd; color: #856404; padding: 0.75rem; border-radius: 4px; margin-top: 1rem; border: 1px solid #ffeaa7;">
+                                Only buyers can purchase products. Please contact the seller directly.
+                            </div>
+                        @endif
+                    @else
+                        <div style="background-color: #d1ecf1; color: #0c5460; padding: 0.75rem; border-radius: 4px; margin-top: 1rem; border: 1px solid #bee5eb;">
+                            Please <a href="{{ route('login') }}" style="color: #0c5460; text-decoration: underline;">login</a> to purchase this product.
+                        </div>
+                    @endauth
                 @endif
             </div>
         </div>
     </div>
 </div>
+
+<script>
+function updateTotalCost() {
+    const quantity = document.getElementById('quantity').value;
+    const unitPrice = {{ $product->price }};
+    const totalCost = (quantity * unitPrice).toFixed(2);
+    document.getElementById('totalCost').textContent = totalCost + ' €';
+}
+</script>
 @endsection

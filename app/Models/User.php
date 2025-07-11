@@ -88,14 +88,33 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function acquisitionsAsSeller()
-{
-    return $this->hasManyThrough(
-        Acquisition::class,
-        Product::class,
-        'seller_id',      // Foreign key on products table...
-        'product_id',     // Foreign key on acquisitions table...
-        'id',             // Local key on users table...
-        'id'              // Local key on products table...
-    );
-}
+    {
+        return $this->hasManyThrough(
+            Acquisition::class,
+            Product::class,
+            'seller_id',      // Foreign key on products table...
+            'product_id',     // Foreign key on acquisitions table...
+            'id',             // Local key on users table...
+            'id'              // Local key on products table...
+        );
+    }
+
+    public function hasEnoughBalance($amount)
+    {
+        return $this->balance >= $amount;
+    }
+
+    public function addBalance($amount)
+    {
+        $this->increment('balance', $amount);
+    }
+
+    public function deductBalance($amount)
+    {
+        if ($this->hasEnoughBalance($amount)) {
+            $this->decrement('balance', $amount);
+            return true;
+        }
+        return false;
+    }
 }

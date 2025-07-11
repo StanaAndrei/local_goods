@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Acquisition;
-use App\Models\User;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class AcquisitionSeeder extends Seeder
 {

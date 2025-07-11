@@ -8,6 +8,11 @@ class Acquisition extends Model
 {
     protected $fillable = ['buyer_id', 'product_id', 'quantity', 'cost'];
 
+    protected $casts = [
+        'quantity' => 'float',
+        'cost' => 'float',
+    ];
+
     public function seller()
     {
         // Access seller through product
