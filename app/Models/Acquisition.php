@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Acquisition extends Model
 {
-    protected $fillable = ['buyer_id', 'product_id', 'quantity', 'unit', 'cost'];
+    protected $fillable = ['buyer_id', 'product_id', 'quantity', 'cost'];
 
     public function seller()
     {

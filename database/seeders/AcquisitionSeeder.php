@@ -21,7 +21,6 @@ class AcquisitionSeeder extends Seeder
             'buyer_id' => $buyer->id,
             'product_id' => $product->id,
             'quantity' => 5,
-            'unit' => 'pcs',
             'cost' => 100.00,
         ]);
     }
