@@ -199,12 +199,12 @@ class BalanceController extends Controller
         }
 
         // --- ADD THIS FOR DEBUGGING ---
-        $currencyToUse = 'eur';
-        dd('Preparing to transfer:', [
-            'currency' => $currencyToUse,
-            'amount_in_cents' => (int)($amount * 100),
-            'destination_account' => $user->stripe_connect_id
-        ]);
+        // $currencyToUse = 'eur';
+        // dd('Preparing to transfer:', [
+        //     'currency' => $currencyToUse,
+        //     'amount_in_cents' => (int)($amount * 100),
+        //     'destination_account' => $user->stripe_connect_id
+        // ]);
         // The script will stop here and show you the variables.
 
         try {

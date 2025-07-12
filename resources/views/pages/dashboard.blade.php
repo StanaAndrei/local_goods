@@ -9,7 +9,11 @@
             Welcome, <span style="color: #ff6d00;">{{ Auth::user()->name }}</span>
         </h1>
         
-        <p>{{ Auth::user()->balance }} {{ '€' }}</p>
+        <p>
+            {{ Auth::user()->balance }} {{ '€' }} 
+            <a href="{{ url('/balance/deposit') }}" style="margin-left: 1rem; color: #007bff; text-decoration: none;">Deposit</a>
+            <a href="{{ url('/balance/withdraw') }}" style="margin-left: 0.5rem; color: #007bff; text-decoration: none;">Withdraw</a>
+        </p>
 
         <a href="{{ route('user.profile', ['id' => auth()->id()]) }}">My profile</a>
         
