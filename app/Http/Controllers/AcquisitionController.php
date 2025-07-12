@@ -36,7 +36,7 @@ class AcquisitionController extends Controller
             $buyer = Auth::user();
 
             // Check if user is a buyer
-            if (!$buyer->isBuyer()) {
+            if (! $buyer->isBuyer()) {
                 return back()->with('error', 'Only buyers can purchase products.');
             }
 
@@ -54,8 +54,8 @@ class AcquisitionController extends Controller
             $totalCost = round(($product->price * $request->quantity), 2);
 
             // Check if buyer has enough funds
-            if (!$buyer->hasEnoughBalance($totalCost)) {
-                return back()->with('error', 'Insufficient funds. Your balance: €' . number_format($buyer->balance, 2) . ', Required: €' . number_format($totalCost, 2));
+            if (! $buyer->hasEnoughBalance($totalCost)) {
+                return back()->with('error', 'Insufficient funds. Your balance: €'.number_format($buyer->balance, 2).', Required: €'.number_format($totalCost, 2));
             }
 
             // Create the acquisition
@@ -75,10 +75,11 @@ class AcquisitionController extends Controller
 
             DB::commit();
 
-            return back()->with('success', 'Product purchased successfully! Total cost: €' . number_format($totalCost, 2) . '. Your remaining balance: €' . number_format($buyer->fresh()->balance, 2));
+            return back()->with('success', 'Product purchased successfully! Total cost: €'.number_format($totalCost, 2).'. Your remaining balance: €'.number_format($buyer->fresh()->balance, 2));
 
         } catch (\Exception $e) {
             DB::rollBack();
+
             return back()->with('error', 'An error occurred while processing your purchase. Please try again.');
         }
     }

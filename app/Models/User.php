@@ -12,7 +12,7 @@ use Laravel\Cashier\Billable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable, Billable;
+    use Billable, HasFactory, Notifiable;
 
     protected $fillable = ['name', 'email', 'password', 'role', 'buyer_type'];
 
@@ -110,12 +110,14 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->increment('balance', $amount);
     }
 
-    public function deductBalance($amount)
+    public function deductBalance($amount): bool
     {
         if ($this->hasEnoughBalance($amount)) {
             $this->decrement('balance', $amount);
+
             return true;
         }
+
         return false;
     }
 }

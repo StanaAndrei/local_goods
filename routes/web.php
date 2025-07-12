@@ -1,14 +1,13 @@
 <?php
 
+use App\Http\Controllers\AcquisitionController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\BalanceController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\AcquisitionController;
-use App\Http\Controllers\BalanceController;
-
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Route;
@@ -112,9 +111,7 @@ Route::get('/about', fn () => view('pages.about'));
 Route::post('/acquisitions', [AcquisitionController::class, 'store'])
     ->middleware('auth')->name('acquisitions.store');
 
-
-
-//stripe
+// stripe
 Route::middleware(['auth'])->group(function () {
     // Balance Routes
     Route::prefix('balance')->name('balance.')->group(function () {
