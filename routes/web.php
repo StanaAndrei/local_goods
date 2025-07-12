@@ -7,7 +7,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AcquisitionController;
-
+use App\Http\Controllers\BalanceController;
 
 use App\Models\User;
 use Illuminate\Http\Response;
@@ -111,3 +111,22 @@ Route::get('/about', fn () => view('pages.about'));
 
 Route::post('/acquisitions', [AcquisitionController::class, 'store'])
     ->middleware('auth')->name('acquisitions.store');
+
+
+
+//stripe
+Route::middleware(['auth'])->group(function () {
+    // Balance Routes
+    Route::prefix('balance')->name('balance.')->group(function () {
+        // Deposit
+        Route::get('/deposit', [BalanceController::class, 'showDepositForm'])->name('deposit');
+        Route::post('/deposit', [BalanceController::class, 'processDeposit'])->name('deposit.process');
+        Route::get('/deposit/success', [BalanceController::class, 'depositSuccess'])->name('deposit.success');
+        Route::get('/deposit/cancel', [BalanceController::class, 'depositCancel'])->name('deposit.cancel');
+
+        // Withdraw
+        Route::get('/withdraw', [BalanceController::class, 'showWithdrawForm'])->name('withdraw');
+        Route::post('/withdraw', [BalanceController::class, 'processWithdrawal'])->name('withdraw.process');
+        Route::get('/withdraw/connect', [BalanceController::class, 'connectStripe'])->name('withdraw.connect');
+    });
+});
