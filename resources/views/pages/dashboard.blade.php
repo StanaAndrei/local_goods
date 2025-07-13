@@ -15,7 +15,10 @@
             <a href="{{ url('/balance/withdraw') }}" style="margin-left: 0.5rem; color: #007bff; text-decoration: none;">Withdraw</a>
         </p>
 
-        <a href="{{ route('user.profile', ['id' => auth()->id()]) }}">My profile</a>
+        <div style="margin: 1rem 0;">
+            <a href="{{ route('user.profile', ['id' => auth()->id()]) }}" style="color: #007bff; text-decoration: none; margin-right: 1rem;">My profile</a>
+            <a href="{{ route('profile.edit') }}" style="color: #007bff; text-decoration: none;">Edit Profile</a>
+        </div>
         
         <form method="POST" action="{{ route('logout') }}" style="margin-top: 1rem;">
             @csrf

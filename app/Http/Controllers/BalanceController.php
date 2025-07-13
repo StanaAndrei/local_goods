@@ -190,11 +190,11 @@ class BalanceController extends Controller
         $user = Auth::user();
         $amount = $request->input('amount');
 
-        if (!$user->isSeller() || !$user->stripe_connect_id) {
+        if (! $user->isSeller() || ! $user->stripe_connect_id) {
             return back()->with('error', 'You must connect a Stripe account before you can withdraw.');
         }
 
-        if (!$user->hasEnoughBalance($amount)) {
+        if (! $user->hasEnoughBalance($amount)) {
             return back()->with('error', 'You do not have enough balance to withdraw that amount.');
         }
 
@@ -211,10 +211,10 @@ class BalanceController extends Controller
             Stripe::setApiKey(config('services.stripe.secret'));
 
             Transfer::create([
-                'amount' => (int)($amount * 100),
+                'amount' => (int) ($amount * 100),
                 'currency' => $currencyToUse,
                 'destination' => $user->stripe_connect_id,
-                'transfer_group' => 'WITHDRAWAL_' . $user->id,
+                'transfer_group' => 'WITHDRAWAL_'.$user->id,
             ]);
 
             $user->deductBalance($amount);
@@ -222,7 +222,7 @@ class BalanceController extends Controller
             return redirect()->route('dashboard')->with('success', 'Withdrawal successful! Funds are on their way to your Stripe account.');
 
         } catch (\Exception $e) {
-            return back()->with('error', 'An error occurred during withdrawal: ' . $e->getMessage());
+            return back()->with('error', 'An error occurred during withdrawal: '.$e->getMessage());
         }
     }
 }
