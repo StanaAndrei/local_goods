@@ -32,6 +32,12 @@ layout('layouts.app');
             </div>
             
             <div style="margin-bottom: 1.25rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Address:</label>
+                <input type="text" name="address" value="{{ old('address') }}" style="width: 100%; padding: 0.75rem; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 1rem;">
+                @error('address') <div style="color: #f44336; font-size: 0.85rem; margin-top: 0.25rem;">{{ $message }}</div> @enderror
+            </div>
+            
+            <div style="margin-bottom: 1.25rem;">
                 <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Password:</label>
                 <input type="password" name="password" required style="width: 100%; padding: 0.75rem; border: 1px solid #e0e0e0; border-radius: 4px; font-size: 1rem;">
                 @error('password') <div style="color: #f44336; font-size: 0.85rem; margin-top: 0.25rem;">{{ $message }}</div> @enderror

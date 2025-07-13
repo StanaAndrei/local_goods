@@ -38,6 +38,7 @@ class UserFactory extends Factory
                 : null,
             'phone_number' => $this->faker->numerify('+1 (###) ###-####'),
             'balance' => 10000.00,
+            'address' => $this->faker->address(),
         ];
     }
 
